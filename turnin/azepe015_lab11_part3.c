@@ -1,7 +1,7 @@
 /*	Author: Alyssa Zepeda
  *  Partner(s) Name: 
  *	Lab Section:
- *	Assignment: Lab #11  Exercise #2
+ *	Assignment: Lab #11  Exercise #3
  *	Exercise Description: https://youtu.be/A7wVJoTfHs4
  *
  *	I acknowledge all content contained herein, excluding template or example
