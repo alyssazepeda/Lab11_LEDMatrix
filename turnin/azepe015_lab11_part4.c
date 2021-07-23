@@ -2,7 +2,7 @@
  *  Partner(s) Name: 
  *	Lab Section:
  *	Assignment: Lab #11  Exercise #4
- *	Exercise Description: 
+ *	Exercise Description: https://youtu.be/GEJ1Img_pBk 
  *
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
@@ -14,7 +14,7 @@
 #endif
 
 //Struct
-#define tasksSize 1
+#define tasksSize 2
 //struct
 typedef struct task {
         int state;
@@ -50,18 +50,18 @@ ISR(TIMER1_COMPA_vect) {
 #define A1 ~PINA&0x02
 #define A2 ~PINA&0x04
 #define A3 ~PINA&0x08
-unsigned int p1 = 0x90;
-unsigned int p2 = 0xF0;
-unsigned int r1 = 0xF0;
-unsigned int r2 = 0xF6;
-unsigned int pattern[] ={0x90, 0xF0}; // LED pattern
-unsigned int row[] = {0xF0, 0xF6}; //Row(s) displaying pattern
+unsigned char p1 = 0x90;
+unsigned char p2 = 0xF0;
+unsigned char r1 = 0xF0;
+unsigned char r2 = 0xF6;
+unsigned char pattern[] ={0x00, 0x00}; // LED pattern
+unsigned char row[] = {0x00, 0x00}; //Row(s) displaying pattern
 enum Square_States {square};
 int Square_Tick(int state) {
 	// Local Variables
 	static unsigned char j = 0;
-	//static unsigned char pattern[] ={p1, p2}; // LED pattern 
-	//static unsigned char row[] = {r1, r2}; //Row(s) displaying pattern		// 0: display pattern on row
+	//static unsigned char pattern[] ={}; // LED pattern 
+	//static unsigned char row[] = {}; //Row(s) displaying pattern		// 0: display pattern on row
 	// 1: do NOT display pattern on row
 	pattern[0] = p1;
 	pattern[1] = p2;
@@ -104,23 +104,29 @@ int Button_Tick(int state) {
 		case check: break;
 		case release: break;
 		case left:
-			if(p1 != 0x09 && p2 != 0x0F) {p1 = p1 >> 1; p2 = p2 >> 1;}
+			if(p1 != 0x09 && p2 != 0x0F) {
+				p1 = p1 >> 1; 
+				p2 = p2 >> 1;
+			}
 			break;
 		case right:
-			if(p1 != 0x90 && p2 != 0xF0) {p1 = p1 << 1; p2 = p2 >> 1;}
+			if(p1 != 0x90 && p2 != 0xF0) {
+				p1 = p1 << 1; 
+				p2 = p2 << 1;
+			}
 			break;
 		case down: 
-			if(r1 != 0x71 && r2 != 0x7D) {
+			if(r1 != 0xE1 && r2 != 0xED) {
 				r1 = (r1 << 1) | 0x01;
 				r2 = (r2 << 1) | 0x01;
 			}
-				break;
+			break;
 		case up:
 			if(r1 != 0xF0 && r2 != 0xF6) {
 				r1 = (r1 >> 1) | 0x80;
 				r2 = (r2 >> 1) | 0x80;
 			}
-				break;
+			break;
 		default: break;
 	}
 	return state;
@@ -140,7 +146,7 @@ int main(void) {
 	tasks[i].TickFct = &Square_Tick;
 	++i;
 	tasks[i].state = check;
-        tasks[i].period = tasksPeriod;
+        tasks[i].period = 20;
         tasks[i].elapsedTime = tasks[i].period;
         tasks[i].TickFct = &Button_Tick;
 
